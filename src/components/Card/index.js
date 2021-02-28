@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-const Card = ({ title, id, addToCart }) => {
-  const [count, setCount] = useState(0);
+const Card = ({ title, id, addToCart, total = 0 }) => {
+  const [count, setCount] = useState(total);
   return (
     <div className="card p-4">
       <div className="flex-grow-1">{title}</div>
