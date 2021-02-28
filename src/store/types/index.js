@@ -1,1 +1,3 @@
-export {};
+const SHOPIFY_API_LIST = "service/SHOPIFY_API_LIST";
+
+export { SHOPIFY_API_LIST };

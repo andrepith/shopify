@@ -1,3 +1,4 @@
 import { combineReducers } from "redux";
+import { shopifyList } from "./shopifyApiReducer";
 
-export default combineReducers({});
+export default combineReducers({ shopifyList });
