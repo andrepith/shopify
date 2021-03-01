@@ -1,28 +1,17 @@
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Card from "../../components/Card";
-import { cartAddListAction, cartRemoveListAction } from "../../store/actions";
+import { cartRemoveListAction } from "../../store/actions";
 
-const Cart = ({
-  cartAddListAction,
-  cartRemoveListAction,
-  cartList,
-  shopifyList,
-}) => {
+const Cart = ({}) => {
+  const dispatch = useDispatch();
+  const { cartList } = useSelector((state) => state);
   const removeItem = (data) => {
-    cartRemoveListAction(data);
+    dispatch(cartRemoveListAction(data));
   };
 
   const checkout = () => {};
 
-  const addToCart = (id, total) => () => {
-    if (total) {
-      cartAddListAction({
-        ...shopifyList?.find((item) => item.id === id),
-        total,
-      });
-    }
-  };
   return (
     <div>
       <Link to="/" className="btn mb-4">
@@ -30,29 +19,18 @@ const Cart = ({
       </Link>
       {cartList?.map((item, key) => (
         <div key={key} className="card mb-4 p-2">
-          <Card
-            {...item}
-            removeItem={removeItem}
-            addToCart={addToCart}
-            isCheckOut={true}
-          />
+          <Card {...item} removeItem={removeItem} isCheckOut={true} />
         </div>
       ))}
-      <div className="text-right">
-        <button onClick={checkout} className="btn btn-secondary">
-          Buy
-        </button>
-      </div>
+      {!!cartList?.length && (
+        <div className="text-right">
+          <button onClick={checkout} className="btn btn-secondary">
+            Buy
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
-const mapStateToProps = ({ cartList, shopifyList }) => ({
-  cartList,
-  shopifyList,
-});
-
-export default connect(mapStateToProps, {
-  cartAddListAction,
-  cartRemoveListAction,
-})(Cart);
+export default Cart;

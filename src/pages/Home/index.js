@@ -1,34 +1,27 @@
-import { useEffect } from "react";
-import { connect } from "react-redux";
+import { useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { uniqBy, sortBy } from "lodash";
 import Card from "../../components/Card";
-import { getShopifyList, cartAddListAction } from "../../store/actions";
+import { getShopifyList } from "../../store/actions";
 
-const Home = ({ getShopifyList, shopifyList, cartAddListAction, cartList }) => {
-  const addToCart = (id, total) => () => {
-    if (total) {
-      cartAddListAction({
-        ...shopifyList?.find((item) => item.id === id),
-        total,
-      });
-    }
-  };
+const Home = () => {
+  const dispatch = useDispatch();
+  const { shopifyList, cartList } = useSelector((state) => state);
+
+  const fetchApi = useCallback(() => {
+    dispatch(getShopifyList());
+  }, [dispatch]);
 
   useEffect(() => {
-    const fetchApi = () => {
-      getShopifyList();
-    };
     fetchApi();
-  }, [getShopifyList, shopifyList]);
+  }, [fetchApi]);
 
   return (
     <div className="list-items">
       {!!shopifyList.length ? (
         sortBy(uniqBy([...cartList, ...shopifyList], "id"), [
           "id",
-        ])?.map((item, key) => (
-          <Card key={key} {...item} addToCart={addToCart} />
-        ))
+        ])?.map((item, key) => <Card key={key} {...item} />)
       ) : (
         <div>Fetching Data ....</div>
       )}
@@ -36,11 +29,4 @@ const Home = ({ getShopifyList, shopifyList, cartAddListAction, cartList }) => {
   );
 };
 
-const mapStateToProps = ({ shopifyList, cartList }) => ({
-  shopifyList,
-  cartList,
-});
-
-export default connect(mapStateToProps, { getShopifyList, cartAddListAction })(
-  Home
-);
+export default Home;

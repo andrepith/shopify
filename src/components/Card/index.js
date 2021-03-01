@@ -1,14 +1,21 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { cartAddListAction } from "../../store/actions";
 
-const Card = ({
-  title,
-  id,
-  addToCart = () => {},
-  removeItem = () => {},
-  total = 0,
-  isCheckOut,
-}) => {
+const Card = ({ title, id, removeItem = () => {}, total = 0, isCheckOut }) => {
+  const dispatch = useDispatch();
+  const { shopifyList } = useSelector((state) => state);
   const [count, setCount] = useState(total);
+  const addToCart = (id, total) => () => {
+    if (total) {
+      dispatch(
+        cartAddListAction({
+          ...shopifyList?.find((item) => item.id === id),
+          total,
+        })
+      );
+    }
+  };
   const handleRemove = () => {
     if (isCheckOut && count < 2) {
       removeItem({ id, title });
