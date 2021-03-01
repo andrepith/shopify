@@ -1,16 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Card from "../../components/Card";
-import { cartRemoveListAction } from "../../store/actions";
+import { cartRemoveListAction, cartBuyListAction } from "../../store/actions";
 
-const Cart = ({}) => {
+const Cart = ({ history }) => {
   const dispatch = useDispatch();
   const { cartList } = useSelector((state) => state);
   const removeItem = (data) => {
     dispatch(cartRemoveListAction(data));
   };
 
-  const checkout = () => {};
+  const checkout = () => {
+    dispatch(cartBuyListAction());
+    history.goBack();
+  };
 
   return (
     <div>

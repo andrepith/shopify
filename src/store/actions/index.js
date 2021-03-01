@@ -1,4 +1,13 @@
 import { getShopifyList } from "./shopifyApiAction";
-import { cartAddListAction, cartRemoveListAction } from "./cartAction";
+import {
+  cartAddListAction,
+  cartRemoveListAction,
+  cartBuyListAction,
+} from "./cartAction";
 
-export { getShopifyList, cartAddListAction, cartRemoveListAction };
+export {
+  getShopifyList,
+  cartAddListAction,
+  cartRemoveListAction,
+  cartBuyListAction,
+};
