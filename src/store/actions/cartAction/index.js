@@ -1,8 +1,15 @@
-import { SHOPIFY_CART_LIST } from "../../types";
+import { SHOPIFY_ADD_CART_LIST, SHOPIFY_REMOVE_CART_LIST } from "../../types";
 
-export const cartListAction = (payload) => (dispatch) => {
+export const cartAddListAction = (payload) => (dispatch) => {
   dispatch({
-    type: SHOPIFY_CART_LIST,
+    type: SHOPIFY_ADD_CART_LIST,
+    payload,
+  });
+};
+
+export const cartRemoveListAction = (payload) => (dispatch) => {
+  dispatch({
+    type: SHOPIFY_REMOVE_CART_LIST,
     payload,
   });
 };

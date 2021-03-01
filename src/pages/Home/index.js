@@ -2,22 +2,23 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { uniqBy, sortBy } from "lodash";
 import Card from "../../components/Card";
-import { getShopifyList, cartListAction } from "../../store/actions";
+import { getShopifyList, cartAddListAction } from "../../store/actions";
 
-const Home = ({ getShopifyList, shopifyList, cartListAction, cartList }) => {
+const Home = ({ getShopifyList, shopifyList, cartAddListAction, cartList }) => {
   const addToCart = (id, total) => () => {
     if (total) {
-      cartListAction({ ...shopifyList?.find((item) => item.id === id), total });
+      cartAddListAction({
+        ...shopifyList?.find((item) => item.id === id),
+        total,
+      });
     }
   };
 
   useEffect(() => {
-    if (!shopifyList.length) {
-      const fetchApi = () => {
-        getShopifyList();
-      };
-      fetchApi();
-    }
+    const fetchApi = () => {
+      getShopifyList();
+    };
+    fetchApi();
   }, [getShopifyList, shopifyList]);
 
   return (
@@ -40,6 +41,6 @@ const mapStateToProps = ({ shopifyList, cartList }) => ({
   cartList,
 });
 
-export default connect(mapStateToProps, { getShopifyList, cartListAction })(
+export default connect(mapStateToProps, { getShopifyList, cartAddListAction })(
   Home
 );
